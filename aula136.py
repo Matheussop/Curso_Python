@@ -15,9 +15,8 @@ for numero in range(10):
 # print(lista)
 
 lista = [
-    numero * 2 
-    if numero >= 10 else "0" + str(numero)
-    for numero in range(10)
+    f"{numero:02}"
+    for numero in range(12)
 ]
 print(list(range(10)))
 print(lista)
