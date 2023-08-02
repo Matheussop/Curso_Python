@@ -20,7 +20,7 @@ class LogFileMixin(Log):
     def _log(self, msg):
         msg_fomatada = f'{msg} ({self.__class__.__name__})'
         print('Salvando no log:', msg_fomatada)
-        with open(LOG_FILE, 'a') as arquivo:
+        with open(LOG_FILE, 'a', encoding='utf8') as arquivo:
             arquivo.write(msg_fomatada)
             arquivo.write('\n')
 
