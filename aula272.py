@@ -41,8 +41,8 @@ class MyList(Sequence):
 
 if __name__ == '__main__':
     lista = MyList()
-    lista.append('Maria', 'Helena')
-    lista[0] = 'João'
+    lista.append('Samuel', 'Luiz')
+    lista[0] = 'Matheus'
     lista.append('Luiz')
     # print(lista[0])
     # print(len(lista))
