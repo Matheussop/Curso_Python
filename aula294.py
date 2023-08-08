@@ -22,6 +22,7 @@ PATH_CSV_WRITE = Path(__file__).parent / 'aula294.csv'
 #         reader.writerow(clientes.values())
 # fileWrite.close()
 
+
 with open(PATH_CSV_WRITE, 'w') as fileWrite:
     columns = lista_clientes[0].keys()
     reader = csv.DictWriter(fileWrite, fieldnames=columns)
