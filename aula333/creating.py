@@ -14,10 +14,10 @@ from openpyxl import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 
 ROOT_FOLDER = Path(__file__).parent
-WORKBOOK_PATH = ROOT_FOLDER / 'workbook.xlsx'
+WORKBOOK_PATH = ROOT_FOLDER / 'empresas.xlsx'
 
 workbook: Workbook = Workbook()
-sheet_name = 'Test Sheet'
+sheet_name = 'Empresa1'
 workbook.create_sheet(sheet_name)
 worksheet: Worksheet = workbook[sheet_name]
 
@@ -25,16 +25,26 @@ worksheet: Worksheet = workbook[sheet_name]
 workbook.remove_sheet(workbook['Sheet'])
 
 # Criando os cabeçalhos
-worksheet.cell(1, 1, 'Nome')
-worksheet.cell(1, 2, 'Idade')
+worksheet.cell(1, 1, 'Exame')
+worksheet.cell(1, 2, 'Valor')
 worksheet.cell(1, 3, 'Nota')
 
+# students = [
+#     # nome      idade nota
+#     ['João',    14,   5.5],
+#     ['Maria',   13,   9.7],
+#     ['Luiz',    15,   8.8],
+#     ['Alberto', 16,   10],
+# ]
+
 students = [
-    # nome      idade nota
-    ['João',    14,   5.5],
-    ['Maria',   13,   9.7],
-    ['Luiz',    15,   8.8],
-    ['Alberto', 16,   10],
+    # nome exame    valor atual nota
+    ['teste1',         14,     5.5],
+    ['teste2',         13,     9.7],
+    ['teste3',         15,     8.8],
+    ['teste4',         16,     10],
+    ['exame1',         10,     10],
+    ['exame2',         1,     10],
 ]
 
 # for i, student_row in enumerate(students, start=2):
