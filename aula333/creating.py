@@ -14,44 +14,49 @@ from openpyxl import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 
 ROOT_FOLDER = Path(__file__).parent
-WORKBOOK_PATH = ROOT_FOLDER / 'empresas.xlsx'
+WORKBOOK_PATH = ROOT_FOLDER / 'funcionarios.xlsx'
 
 workbook: Workbook = Workbook()
-sheet_name = 'Empresa1'
-workbook.create_sheet(sheet_name)
-worksheet: Worksheet = workbook[sheet_name]
-
-# Remover sheet
 workbook.remove_sheet(workbook['Sheet'])
+for i in range(1):
+    sheet_name = f'FUNC{i+1}'
+    workbook.create_sheet(sheet_name)
+    worksheet: Worksheet = workbook[sheet_name]
 
-# Criando os cabeçalhos
-worksheet.cell(1, 1, 'Exame')
-worksheet.cell(1, 2, 'Valor')
-worksheet.cell(1, 3, 'Nota')
+    # Remover sheet
 
-# students = [
-#     # nome      idade nota
-#     ['João',    14,   5.5],
-#     ['Maria',   13,   9.7],
-#     ['Luiz',    15,   8.8],
-#     ['Alberto', 16,   10],
-# ]
+    # Criando os cabeçalhos
+    worksheet.cell(1, 1, 'Nome Empresa')
+    worksheet.cell(1, 2, 'Nome')
+    worksheet.cell(1, 3, 'Exames')
 
-students = [
-    # nome exame    valor atual nota
-    ['teste1',         14,     5.5],
-    ['teste2',         13,     9.7],
-    ['teste3',         15,     8.8],
-    ['teste4',         16,     10],
-    ['exame1',         10,     10],
-    ['exame2',         1,     10],
-]
+    # students = [
+    #     # nome      idade nota
+    #     ['João',    14,   5.5],
+    #     ['Maria',   13,   9.7],
+    #     ['Luiz',    15,   8.8],
+    #     ['Alberto', 16,   10],
+    # ]
 
-# for i, student_row in enumerate(students, start=2):
-#     for j, student_column in enumerate(student_row, start=1):
-#         worksheet.cell(i, j, student_column)
+    students = [
+        # nome Empresa Nome funcionario     exames feitos    nota
+        ['Empresa1',       'João',              'teste1/exame1'],
+        ['Empresa2',       'Maria',             'teste2/exame2'],
+        ['Empresa3',       'Luiz',              'teste3/exame3'],
+        ['Empresa1',       'Alberto',           'teste4/exame4'],
+        ['Empresa1',       'Matheus',           'teste3/exame1'],
+        ['Empresa2',       'Luiz',           'teste1/exame4'],
+        ['Empresa2',       'Samuel',           'teste4/exame1'],
+        ['Empresa3',       'Edna',           'teste2/exame2'],
+        ['Empresa3',       'Lucas',           'teste3/exame3'],
+        ['Empresa1',       'Fernanda',           'teste4/exame1'],
+        ['Empresa2',      'Cristiano',           'teste2/exame4'],
+    ]
+    # for i, student_row in enumerate(students, start=2):
+    #     for j, student_column in enumerate(student_row, start=1):
+    #         worksheet.cell(i, j, student_column)
 
-for student in students:
-    worksheet.append(student)
+    for student in students:
+        worksheet.append(student)
 
 workbook.save(WORKBOOK_PATH)
