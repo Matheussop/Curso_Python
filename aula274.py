@@ -14,12 +14,13 @@ from datetime import datetime
 
 from pytz import timezone
 
-data = datetime.now(timezone('America/Sao_Paulo'))
-print(data.timestamp())  # Isso está na base de dados
-print(datetime.fromtimestamp(1670849077))
+# data = datetime.now(timezone('America/Sao_Paulo'))
+# print(data.timestamp())  # Isso está na base de dados
+# print(datetime.fromtimestamp(1670849077))
 # data_str_data = '2023/04/20 07:49:23'
-# data_str_data = '20/04/2023'
-# data_str_fmt = '%d/%m/%Y'
+data_str_data = '20/04/2023'
+data_str_fmt = '%d/%m/%Y'
 
 # data = datetime(2023, 4, 20, 7, 49, 23, tzinfo=timezone('Asia/Tokyo'))
-# data = datetime.strptime(data_str_data, data_str_fmt)
+data = datetime.strptime(data_str_data, data_str_fmt)
+print(data)
