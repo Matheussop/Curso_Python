@@ -12,7 +12,7 @@ class ButtonsGrid(QGridLayout):
             ['7', '8', '9', '*'],
             ['4', '5', '6', '-'],
             ['1', '2', '3', '+'],
-            ['',  '0', '.', '='],
+            ['0',  '', '.', '='],
         ]
         self._makeGrid()
 
@@ -23,8 +23,12 @@ class ButtonsGrid(QGridLayout):
 
                 if not isNumOrDot(buttonText) and not isEmpty(buttonText):
                     button.setProperty('cssClass', 'specialButton')
-
-                self.addWidget(button, rowNumber, colNumber)
+                if buttonText == '0':
+                    self.addWidget(button, rowNumber, colNumber, 1, 2)
+                elif buttonText == '':
+                    continue
+                else:
+                    self.addWidget(button, rowNumber, colNumber)
 
 
 class Button(QPushButton):
@@ -37,4 +41,3 @@ class Button(QPushButton):
         font.setPixelSize(MEDIUM_FONT_SIZE)
         self.setFont(font)
         self.setMinimumSize(75, 75)
-        self.setProperty('cssClass', 'specialButton')
