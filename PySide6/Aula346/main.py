@@ -28,7 +28,7 @@ if __name__ == '__main__':
     # Display
     display = Display()
     window.addWidgetToVLayout(display)
-    display.setPlaceholderText('Teste')
+    display.setPlaceholderText('Digite um número')
 
     # Grid
     buttonsGrid = ButtonsGrid(display, info)

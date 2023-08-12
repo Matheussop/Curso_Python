@@ -1,3 +1,4 @@
+import math
 from typing import TYPE_CHECKING
 
 from PySide6.QtWidgets import QGridLayout, QPushButton
@@ -69,11 +70,13 @@ class ButtonsGrid(QGridLayout):
         if text == 'C':
             self._connectButtonClicked(button, self._clear)
 
-        if text in '+-/*':
+        if text in '+-/*^':
             self._connectButtonClicked(
                 button,
                 self._makeSlot(self._operatorClicked, button)
             )
+        if text in '=':
+            self._connectButtonClicked(button, self._eq)
 
     def _makeSlot(self, func, *args, **kwargs):
         @Slot(bool)
@@ -89,6 +92,34 @@ class ButtonsGrid(QGridLayout):
             return
 
         self.display.insert(buttonText)
+
+    def _eq(self):
+        displayText = self.display.text()
+
+        if not isValidNumber(displayText):
+            print('Sem nada para a direita')
+            return
+
+        self._right = float(displayText)
+        self.equation = f'{self._left} {self._op} {self._right}'
+        result = 'error'
+
+        try:
+            if '^' in self.equation and isinstance(self._left, float):
+                result = math.pow(self._left, self._right)
+            else:
+                result = eval(self.equation)
+        except ZeroDivisionError:
+            print('Zero Division Error')
+        except OverflowError:
+            print('Número muito grande')
+
+        self.display.clear()
+        self.info.setText(f'{self.equation} = {result}')
+        self._left = result
+        self._right = None
+        if result == 'error':
+            self._left = None
 
     def _clear(self):
         self._left = None
