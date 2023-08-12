@@ -1,10 +1,19 @@
+from typing import TYPE_CHECKING
+
 from PySide6.QtWidgets import QGridLayout, QPushButton
+from PySide6.QtCore import Slot
 from variables import MEDIUM_FONT_SIZE
-from utils import isEmpty, isNumOrDot
+from utils import isEmpty, isNumOrDot, isValidNumber
+
+
+if TYPE_CHECKING:
+    from display import Display
+    from info import Info
 
 
 class ButtonsGrid(QGridLayout):
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, display: 'Display', info: 'Info', *args,
+                 **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         self._gridMask = [
@@ -14,7 +23,19 @@ class ButtonsGrid(QGridLayout):
             ['1', '2', '3', '+'],
             ['0',  '', '.', '='],
         ]
+        self.display = display
+        self.info = info
+        self._equation = ''
         self._makeGrid()
+
+    @property
+    def equation(self):
+        return self._equation
+
+    @equation.setter
+    def equation(self, value):
+        self._equation = value
+        self.info.setText(value)
 
     def _makeGrid(self):
         for rowNumber, rowData in enumerate(self._gridMask):
@@ -23,12 +44,43 @@ class ButtonsGrid(QGridLayout):
 
                 if not isNumOrDot(buttonText) and not isEmpty(buttonText):
                     button.setProperty('cssClass', 'specialButton')
+                    self._configSpecialButton(button)
                 if buttonText == '0':
                     self.addWidget(button, rowNumber, colNumber, 1, 2)
                 elif buttonText == '':
                     continue
                 else:
                     self.addWidget(button, rowNumber, colNumber)
+                slot = self._makeSlot(self._insertButtonTextToDisplay, button)
+                self._connectButtonClicked(button, slot)
+
+    def _connectButtonClicked(self, button, slot):
+        button.clicked.connect(slot)  # type: ignore
+
+    def _configSpecialButton(self, button):
+        text = button.text()
+
+        if text == 'C':
+            self._connectButtonClicked(button, self._clear)
+
+    def _makeSlot(self, func, *args, **kwargs):
+        @Slot(bool)
+        def realSlot(_):
+            func(*args, **kwargs)
+        return realSlot
+
+    def _insertButtonTextToDisplay(self, button):
+        buttonText = button.text()
+        newDisplayValue = self.display.text() + buttonText
+
+        if not isValidNumber(newDisplayValue):
+            return
+
+        self.display.insert(buttonText)
+
+    def _clear(self):
+        print('TODO: Vou fazer outra coisa aqui')
+        self.display.clear()
 
 
 class Button(QPushButton):
@@ -41,3 +93,4 @@ class Button(QPushButton):
         font.setPixelSize(MEDIUM_FONT_SIZE)
         self.setFont(font)
         self.setMinimumSize(75, 75)
+        self.setCheckable(True)
